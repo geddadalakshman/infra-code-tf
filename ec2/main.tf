@@ -7,13 +7,13 @@ data "aws_ami" "ami" {
 }
 
 data "aws_route53_zone" "zone_id" {
-  name         = "www.devops71.tech"
+  name         = "devops71.tech"
   private_zone = true
 }
 
 resource "aws_route53_record" "www" {
   zone_id = data.aws_route53_zone.zone_id.zone_id
-  name = data.aws_route53_zone.zone_id.name
+  name = "www.${data.aws_route53_zone.zone_id.name}"
   type    = "A"
   ttl     = 300
   records = [aws_instance.component.private_ip]
