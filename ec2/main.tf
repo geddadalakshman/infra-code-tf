@@ -6,6 +6,19 @@ data "aws_ami" "ami" {
   owners           = [ data.aws_caller_identity.current.account_id]
 }
 
+data "aws_route53_zone" "selected" {
+  name         = "www.devops71.tech"
+  private_zone = true
+}
+
+resource "aws_route53_record" "www" {
+  zone_id = data.aws_route53_zone.selected.zone_id
+  name = data.aws_route53_zone.selected.name
+  type    = "A"
+  ttl     = 300
+  records = [aws_instance.component.private_ip]
+}
+
 resource "aws_instance" "component" {
   ami           = data.aws_ami.ami.id
   instance_type = var.instance_type
@@ -39,6 +52,8 @@ resource "aws_security_group" "sg" {
     Name = "${var.component}-all_traffic"
   }
 }
+
+
 
 variable "instance_type" {}
 variable "component" {}
