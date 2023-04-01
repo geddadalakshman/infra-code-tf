@@ -12,8 +12,8 @@ data "aws_route53_zone" "zone_id" {
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = "data.aws_route53_zone.${var.component}.zone_id"
-  name = "data.aws_route53_zone.${var.component}.name"
+  zone_id = data.aws_route53_zone.zone_id.zone_id
+  name = data.aws_route53_zone.zone_id.name
   type    = "A"
   ttl     = 300
   records = [aws_instance.component.private_ip]
