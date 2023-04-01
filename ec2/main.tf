@@ -11,11 +11,11 @@ data "aws_route53_zone" "zone_id" {
   private_zone = false
 }
 
-resource "aws_route53_record" "www" {
+resource "aws_route53_record" "record" {
   zone_id = data.aws_route53_zone.zone_id.zone_id
   name = "www.${data.aws_route53_zone.zone_id.name}"
   type    = "A"
-  ttl     = 300
+  ttl     = 30
   records = [aws_instance.component.private_ip]
 }
 
