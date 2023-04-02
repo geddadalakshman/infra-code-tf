@@ -21,9 +21,9 @@ data "aws_ami" "ami" {
 
 
 resource "aws_instance" "instance" {
-  ami           = data.aws_ami.ami.id
-  instance_type = var.instance_type
-  vpc_security_group_ids = [ aws_security_group.sg.id ]
+  ami                    = data.aws_ami.ami.id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.sg.id]
 
   tags = {
     Name = "${ var.component }-${var.env}"
@@ -32,11 +32,11 @@ resource "aws_instance" "instance" {
 
 resource "null_resource" "provisioner" {
 
-    connection {
-      host     = aws_instance.instance.public_ip
-      user     = "centos"
-      password = "DevOps321"
-    }
+  connection {
+    host     = aws_instance.instance.public_ip
+    user     = "centos"
+    password = "DevOps321"
+  }
 
   provisioner "remote-exec" {
 
@@ -45,6 +45,9 @@ resource "null_resource" "provisioner" {
     ]
   }
 }
+
+
+
 
 
 resource "aws_security_group" "sg" {
