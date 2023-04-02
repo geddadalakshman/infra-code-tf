@@ -6,10 +6,10 @@ data "aws_ami" "ami" {
   owners           = [ data.aws_caller_identity.current.account_id]
 }
 
-data "aws_route53_zone" "id-zone" {
-  name         = "devops71.tech"
-  private_zone = false
-}
+#data "aws_route53_zone" "id-zone" {
+#  name         = "devops71.tech"
+#  private_zone = false
+#}
 
 #resource "aws_route53_record" "record" {
 #  zone_id = data.aws_route53_zone.id-zone.zone_id
