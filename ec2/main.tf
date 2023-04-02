@@ -47,7 +47,7 @@ resource "null_resource" "provisioner" {
 
 
 resource "aws_security_group" "sg" {
-  name        = "${var.component}-sg"
+  name        = "${var.component}-${var.env}-sg"
   description = "Allow TLS inbound traffic"
 
   ingress {
@@ -66,7 +66,7 @@ resource "aws_security_group" "sg" {
   }
 
   tags = {
-    Name = "${var.component}-all_traffic"
+    Name = "${var.component}-${var.env}-all_traffic"
   }
 }
 
