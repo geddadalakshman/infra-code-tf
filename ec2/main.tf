@@ -11,16 +11,16 @@ data "aws_route53_zone" "id-zone" {
   private_zone = false
 }
 
-resource "aws_route53_record" "record" {
-  zone_id = data.aws_route53_zone.id-zone.zone_id
-  name = "${var.component}-${data.aws_route53_zone.id-zone.name}"
-  type    = "A"
-  ttl     = 30
-  records = [aws_instance.component.private_ip]
-}
+#resource "aws_route53_record" "record" {
+#  zone_id = data.aws_route53_zone.id-zone.zone_id
+#  name = "${var.component}-${data.aws_route53_zone.id-zone.name}"
+#  type    = "A"
+#  ttl     = 30
+#  records = [aws_instance.component.private_ip]
+#}
 
 
-resource "aws_instance" "component" {
+resource "aws_instance" "instance" {
   ami           = data.aws_ami.ami.id
   instance_type = var.instance_type
   vpc_security_group_ids = [ aws_security_group.sg.id ]
@@ -54,9 +54,18 @@ resource "aws_security_group" "sg" {
   }
 }
 
-
+resource "aws_route53_record" "record" {
+  zone_id = "Z10202231Q9C3TKFTZOQE"
+  name    = "${var.component}-${var.env}.devops71.tech"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.instance.private_ip]
+}
 
 
 
 variable "instance_type" {}
 variable "component" {}
+variable "env" {
+  default = "dev"
+}
