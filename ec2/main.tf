@@ -30,17 +30,17 @@ resource "aws_instance" "instance" {
   }
 }
 
-
 resource "null_resource" "provisioner" {
-  connection {
-    type     = "ssh"
-    user     = "centos"
-    password = "DevOps321"
-    host     = aws_instance.instance.public_ip
-  }
   provisioner "remote-exec" {
+
+    connection {
+      host     = aws_instance.instance.public_ip
+      user     = "centos"
+      password = "DevOps321"
+    }
+
     inline = [
-      "sudo set-hostname ${var.component}"
+      "ansible-pull -i localhost, -U https://github.com/lakshmangeddada/robohsop-ansible-practice.git roboshop.yml -e role_name=${var.component}"
     ]
   }
 }
