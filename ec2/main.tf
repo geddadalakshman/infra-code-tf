@@ -11,13 +11,13 @@ data "aws_route53_zone" "id-zone" {
   private_zone = false
 }
 
-resource "aws_route53_record" "record" {
-  zone_id = data.aws_route53_zone.id-zone.zone_id
-  name = "${var.component}-${data.aws_route53_zone.id-zone.name}"
-  type    = "A"
-  ttl     = 30
-  records = [aws_instance.instance.private_ip]
-}
+#resource "aws_route53_record" "record" {
+#  zone_id = data.aws_route53_zone.id-zone.zone_id
+#  name = "${var.component}-${data.aws_route53_zone.id-zone.name}"
+#  type    = "A"
+#  ttl     = 30
+#  records = [aws_instance.instance.private_ip]
+#}
 
 
 resource "aws_instance" "instance" {
@@ -29,6 +29,22 @@ resource "aws_instance" "instance" {
     Name = var.component
   }
 }
+
+
+resource "null_resource" "provisioner" {
+  connection {
+    type     = "ssh"
+    user     = "centos"
+    password = "DevOps321"
+    host     = aws_instance.instance.public_ip
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo set-hostname ${var.component}"
+    ]
+  }
+}
+
 
 resource "aws_security_group" "sg" {
   name        = "${var.component}-sg"
@@ -54,13 +70,13 @@ resource "aws_security_group" "sg" {
   }
 }
 
-#resource "aws_route53_record" "record" {
-#  zone_id = "Z10202231Q9C3TKFTZOQE"
-#  name    = "${var.component}-${var.env}.devops71.tech"
-#  type    = "A"
-#  ttl     = 30
-#  records = [aws_instance.instance.private_ip]
-#}
+resource "aws_route53_record" "record" {
+  zone_id = "Z10202231Q9C3TKFTZOQE"
+  name    = "${var.component}-${var.env}.devops71.tech"
+  type    = "A"
+  ttl     = 30
+  records = [aws_instance.instance.private_ip]
+}
 
 
 
