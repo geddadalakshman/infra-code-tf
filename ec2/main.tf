@@ -2,7 +2,7 @@ resource "aws_instance" "instance" {
   ami                    = data.aws_ami.ami.id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
-
+  iam_instance_profile = "${var.env}-${var.component}-profile"
   tags = {
     Name = "${ var.component }-${var.env}"
   }
@@ -24,7 +24,7 @@ resource "null_resource" "provisioner" {
   }
 }
 
-
+#AWS Security-group
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
   description = "Allow TLS inbound traffic"
@@ -58,7 +58,7 @@ resource "aws_route53_record" "record" {
 }
 
 ###IAM Policy creation
-resource "aws_iam_policy" "policy" {
+resource "aws_iam_policy" "ssm-policy" {
   name        = "${var.env}-${var.component}-ssm"
   path        = "/"
   description = "${var.env}-${var.component}-ssm"
@@ -91,3 +91,31 @@ resource "aws_iam_policy" "policy" {
   })
 }
 
+#IAM role
+resource "aws_iam_role" "role" {
+  name = "${var.env}-${var.component}-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "ec2.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+#IAM instance profile
+resource "aws_iam_instance_profile" "profile" {
+  name = "${var.env}-${var.component}-profile"
+  role = aws_iam_role.role.name
+}
+
+#IAM role_policy attachment
+resource "aws_iam_role_policy_attachment" "policy-attach" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.ssm-policy.arn
+}
