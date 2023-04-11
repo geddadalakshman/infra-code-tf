@@ -1,25 +1,3 @@
-data "aws_caller_identity" "current" {}
-
-data "aws_ami" "ami" {
-  most_recent      = true
-  name_regex       = "devops-ansible"
-  owners           = [ data.aws_caller_identity.current.account_id]
-}
-
-#data "aws_route53_zone" "id-zone" {
-#  name         = "devops71.tech"
-#  private_zone = false
-#}
-
-#resource "aws_route53_record" "record" {
-#  zone_id = data.aws_route53_zone.id-zone.zone_id
-#  name = "${var.component}-${data.aws_route53_zone.id-zone.name}"
-#  type    = "A"
-#  ttl     = 30
-#  records = [aws_instance.instance.private_ip]
-#}
-
-
 resource "aws_instance" "instance" {
   ami                    = data.aws_ami.ami.id
   instance_type          = var.instance_type
@@ -45,9 +23,6 @@ resource "null_resource" "provisioner" {
     ]
   }
 }
-
-
-
 
 
 resource "aws_security_group" "sg" {
@@ -82,10 +57,37 @@ resource "aws_route53_record" "record" {
   records = [aws_instance.instance.private_ip]
 }
 
+###IAM Policy creation
+resource "aws_iam_policy" "policy" {
+  name        = "${var.env}-${var.component}-ssm"
+  path        = "/"
+  description = "${var.env}-${var.component}-ssm"
 
-
-variable "instance_type" {}
-variable "component" {}
-variable "env" {
-  default = "dev"
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+          "ssm:GetParameterHistory",
+          "ssm:GetParametersByPath",
+          "ssm:GetParameters",
+          "ssm:GetResourcePolicies",
+          "ssm:GetParameter"
+        ],
+        "Resource": "arn:aws:ssm:us-east-1:820762291138:parameter/${var.env}.${var.component}*"
+      },
+      {
+        "Sid": "VisualEditor1",
+        "Effect": "Allow",
+        "Action": [
+          "ssm:DescribeParameters",
+          "ssm:ListAssociations"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
 }
+
