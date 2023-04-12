@@ -5,3 +5,4 @@ data "aws_ami" "ami" {
   name_regex       = "devops-ansible"
   owners           = [ data.aws_caller_identity.current.account_id]
 }
+
