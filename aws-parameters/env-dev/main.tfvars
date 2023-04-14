@@ -20,3 +20,11 @@ parameters = [
   { name = "dev.user.redis_host", type = "String", value = "redis-dev.devops71.tech" },
   { name = "dev.user.mongo_url", type = "String", value = "mongodb://mongo-dev.devops71.tech:27017/catalogue" }
 ]
+
+secrets = [
+  { name = "dev.mysql.password", type = "SecureString", value = "Roboshop@1" },
+  { name = "dev.rabbitmq.amqp_user", type = "SecureString", value = "roboshop" },
+  { name = "dev.rabbitmq.amqp_pass", type = "SecureString", value = "roboshop123" },
+  { name = "dev.payment.amqp_user", type = "SecureString", value = "roboshop" },
+  { name = "dev.payment.amqp_pass", type = "SecureString", value = "roboshop123" }
+]
