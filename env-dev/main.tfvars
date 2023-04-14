@@ -41,4 +41,4 @@ instances = {
    }
 }
 
-
+env = "dev"
