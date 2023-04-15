@@ -18,7 +18,7 @@ parameters = [
   { name = "dev.shipping.db_host", type = "String", value = "mysql-dev.devops71.tech" },
   { name = "dev.user.mongo", type = "String", value = "true" },
   { name = "dev.user.redis_host", type = "String", value = "redis-dev.devops71.tech" },
-  { name = "dev.user.mongo_url", type = "String", value = "mongodb://mongo-dev.devops71.tech:27017/users" }
+  { name = "dev.user.mongo_url", type = "String", value = "mongodb://mongodb-dev.devops71.tech:27017/users" }
 ]
 
 secrets = [
