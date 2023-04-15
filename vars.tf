@@ -1,4 +1,2 @@
 variable "instances" {}
-variable "env" {
-  default = "dev"
-}
+variable "env" {}
