@@ -22,7 +22,7 @@ parameters = [
 ]
 
 secrets = [
-  { name = "dev.mysql.password", type = "SecureString", value = "Roboshop@1" },
+  { name = "dev.mysql.password", type = "SecureString", value = "RoboShop@1" },
   { name = "dev.rabbitmq.amqp_user", type = "SecureString", value = "roboshop" },
   { name = "dev.rabbitmq.amqp_pass", type = "SecureString", value = "roboshop123" },
   { name = "dev.payment.amqp_user", type = "SecureString", value = "roboshop" },
