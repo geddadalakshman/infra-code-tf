@@ -8,7 +8,7 @@ parameters = [
   { name = "dev.cart.catalogue_host", type = "String", value = "catalogue-dev.devops71.tech" },
   { name = "dev.cart.catalogue_port", type = "String", value = "8080" },
   { name = "dev.catalogue.mongo", type = "String", value = "true" },
-  { name = "dev.catalogue.mongo_url", type = "String", value = "mongodb://mongodb-dev.devops71.tech:27017/users" },
+  { name = "dev.catalogue.mongo_url", type = "String", value = "mongodb://mongodb-dev.devops71.tech:27017/catalogue" },
   { name = "dev.payment.cart_host", type = "String", value = "cart-dev.devops71.tech" },
   { name = "dev.payment.cart_port", type = "String", value = "8080" },
   { name = "dev.payment.user_host", type = "String", value = "user-dev.devops71.tech" },
@@ -18,7 +18,7 @@ parameters = [
   { name = "dev.shipping.db_host", type = "String", value = "mysql-dev.devops71.tech" },
   { name = "dev.user.mongo", type = "String", value = "true" },
   { name = "dev.user.redis_host", type = "String", value = "redis-dev.devops71.tech" },
-  { name = "dev.user.mongo_url", type = "String", value = "mongodb://mongo-dev.devops71.tech:27017/catalogue" }
+  { name = "dev.user.mongo_url", type = "String", value = "mongodb://mongo-dev.devops71.tech:27017/users" }
 ]
 
 secrets = [
