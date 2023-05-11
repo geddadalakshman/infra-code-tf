@@ -10,6 +10,7 @@ resource "aws_instance" "instance" {
 }
 
 resource "null_resource" "provisioner" {
+  depends_on = [aws_route53_record.record]
 
   connection {
     host     = aws_instance.instance.public_ip
