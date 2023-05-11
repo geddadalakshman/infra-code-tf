@@ -5,6 +5,7 @@ resource "aws_instance" "instance" {
   iam_instance_profile = "${var.env}-${var.component}-profile"
   tags = {
     Name = "${ var.component }-${var.env}"
+    Monitor = var.monitor ? "yes" : "no"
   }
 }
 
