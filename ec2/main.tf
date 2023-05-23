@@ -21,7 +21,7 @@ resource "null_resource" "provisioner" {
   provisioner "remote-exec" {
 
     inline = [
-      "ansible-pull -i localhost, -U https://github.com/geddadalakshman/infra-conf-ansible.git roboshop.yml -e role_name=${var.component}"
+      "ansible-pull -i localhost, -U https://github.com/geddadalakshman/infra-conf-ansible.git roboshop.yml -e env=${var.env} -e role_name=${var.component}"
     ]
   }
 }
